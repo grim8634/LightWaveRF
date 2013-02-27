@@ -31,7 +31,7 @@ Provides an interface to LightWaveRF modules via the LightWaveRF Wifi Link.
 use Moose;
 use IO::Socket::INET;
 
-my $VERSION = 0.01;
+our $VERSION = 0.02;
 
 has '_devices' => (is => 'rw', default => sub{{}});
 has '_current_msg_id' => (is => 'rw', default => 0 );
