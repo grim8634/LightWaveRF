@@ -32,7 +32,7 @@ use Moose;
 use IO::Socket::INET;
 use IO::Select;
 
-our $VERSION = 0.03;
+our $VERSION = 0.04;
 
 has '_devices' => (is => 'rw', default => sub{{}});
 has '_current_msg_id' => (is => 'rw', default => 0 );
@@ -128,7 +128,7 @@ sub get_kwh {
             or die "Failed to bind to socket: $@";
 
 	$sel->add($in_sock);
-	my $n = 10;
+	my $timeout = 2;
 	my $mess;    
 
 
@@ -143,8 +143,8 @@ sub get_kwh {
 
 
 	while (1) { 
-   		my @r = $sel->can_read($n);
-   		unless (@r) { print "Nothing after $n seconds\n"; next; }
+   		my @r = $sel->can_read($timeout);
+   		unless (@r) { last; } #Tiemout
    		$in_sock -> recv ($mess, 1024);
    		last;
 	}
